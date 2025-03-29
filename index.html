@@ -15,35 +15,18 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             height: 100vh;
             background-color: #e1d6dc;
             text-align: center;
             color: #000;
             overflow: hidden;
-        }
-        .loading-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(0, 0, 0, 0.2);
-            border-top: 5px solid #000;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            position: relative;
         }
         .container {
             opacity: 0;
             transform: translateY(50px);
             transition: opacity 1s ease-out, transform 1s ease-out;
-            display: none;
         }
         .logo {
             max-width: 300px;
@@ -56,30 +39,46 @@
             font-size: 1.2em;
             margin-top: 10px;
         }
+        .loading-bar-container {
+            position: absolute;
+            bottom: 20px;
+            width: 80%;
+            max-width: 400px;
+            height: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .loading-bar {
+            width: 0;
+            height: 100%;
+            background: #000;
+            animation: loading 3s infinite;
+        }
+        @keyframes loading {
+            0% { width: 0; }
+            50% { width: 100%; }
+            100% { width: 0; }
+        }
     </style>
 </head>
 <body>
-    <div class="loading-container" id="loading">
-        <div class="spinner"></div>
-        <p>Carregando...</p>
-    </div>
-    
     <div class="container" id="content">
         <img src="logo2x1.svg" alt="Logo" class="logo">
         <h1>Estamos Construindo Algo Incrível!</h1>
         <p>Nosso site está sendo desenvolvido para trazer a melhor experiência para você. Aguarde novidades em breve!</p>
     </div>
+    
+    <div class="loading-bar-container">
+        <div class="loading-bar"></div>
+    </div>
 
     <script>
         setTimeout(() => {
-            document.getElementById("loading").style.display = "none";
             const content = document.getElementById("content");
-            content.style.display = "block";
-            setTimeout(() => {
-                content.style.opacity = "1";
-                content.style.transform = "translateY(0)";
-            }, 100);
-        }, 3000); // Tempo do loading antes de mostrar o conteúdo
+            content.style.opacity = "1";
+            content.style.transform = "translateY(0)";
+        }, 100);
     </script>
 </body>
 </html>
