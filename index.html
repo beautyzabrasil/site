@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="dynamic-title"></title>
+    <title>Em Breve - Novo Site</title>
     <style>
         * {
             margin: 0;
@@ -21,7 +21,6 @@
             text-align: center;
             color: #000;
             overflow: hidden;
-            position: relative;
         }
         .container {
             opacity: 0;
@@ -32,19 +31,22 @@
             max-width: 300px;
             margin-bottom: 20px;
         }
-        .typing-text, .sub-text {
+        .typing-text {
             font-size: 2.5em;
             font-weight: bold;
             white-space: nowrap;
             overflow: hidden;
             border-right: 3px solid black;
-            width: 0;
+            display: inline-block;
         }
-        p {
+        .sub-text {
             font-size: 1.2em;
             margin-top: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 3px solid black;
+            display: inline-block;
             opacity: 0;
-            transition: opacity 1s ease-in;
         }
         .dots {
             font-size: 1.5em;
@@ -64,42 +66,16 @@
             content: "";
             animation: dotsAnimation 1.5s infinite;
         }
-        .gear-container {
-            position: absolute;
-            bottom: 30px;
-            display: flex;
-            gap: 15px;
-        }
-        .gear {
-            width: 40px;
-            height: 40px;
-            background: url('gear.svg') no-repeat center;
-            background-size: contain;
-            animation: spin 2s linear infinite;
-        }
-        .gear:nth-child(2) {
-            animation-duration: 3s;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
     </style>
 </head>
 <body>
     <div class="container" id="content">
         <img src="logo2x1.svg" alt="Logo" class="logo">
         <h1 class="typing-text" id="dynamic-text"></h1>
-        <p id="sub-text" class="sub-text"></p>
+        <p class="sub-text" id="sub-text"></p>
         <p class="dots"></p>
     </div>
     
-    <div class="gear-container">
-        <div class="gear"></div>
-        <div class="gear"></div>
-        <div class="gear"></div>
-    </div>
-
     <script>
         setTimeout(() => {
             const content = document.getElementById("content");
@@ -107,15 +83,13 @@
             content.style.transform = "translateY(0)";
         }, 100);
         
-        const titleElement = document.getElementById("dynamic-title");
         const textElement = document.getElementById("dynamic-text");
         const subTextElement = document.getElementById("sub-text");
-        const texts = ["Estamos Construindo Algo Incrível", "Aguardem Novidades", "Nosso Novo Site Está Chegando!"];
-        let index = 0;
+        const mainText = "Nosso Novo Site Está Chegando!";
+        const subText = "Estamos preparando algo incrível para você.";
         
         function typeEffect(element, text, callback) {
             let i = 0;
-            element.style.width = "auto";
             function typing() {
                 if (i < text.length) {
                     element.textContent += text.charAt(i);
@@ -123,7 +97,7 @@
                     setTimeout(typing, 100);
                 } else {
                     element.style.borderRight = "none";
-                    if (callback) setTimeout(callback, 1000);
+                    if (callback) setTimeout(callback, 500);
                 }
             }
             typing();
@@ -135,18 +109,15 @@
             textElement.style.borderRight = "3px solid black";
             subTextElement.style.borderRight = "3px solid black";
             
-            typeEffect(textElement, texts[index], () => {
+            typeEffect(textElement, mainText, () => {
                 subTextElement.style.opacity = "1";
-                typeEffect(subTextElement, "Nosso site está sendo desenvolvido para trazer a melhor experiência para você.", () => {
+                typeEffect(subTextElement, subText, () => {
                     subTextElement.style.borderRight = "none";
                 });
             });
-            titleElement.textContent = texts[index] + "...";
-            index = (index + 1) % texts.length;
         }
         
         startTyping();
-        setInterval(startTyping, 6000);
     </script>
 </body>
 </html>
