@@ -39,26 +39,43 @@
             font-size: 1.2em;
             margin-top: 10px;
         }
-        .loading-bar-container {
-            position: absolute;
-            bottom: 20px;
-            width: 80%;
-            max-width: 400px;
-            height: 10px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 5px;
+        .loading-text {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 20px;
+            white-space: nowrap;
             overflow: hidden;
-        }
-        .loading-bar {
+            border-right: 3px solid black;
             width: 0;
-            height: 100%;
-            background: #000;
-            animation: loading 3s infinite;
+            animation: typing 3s steps(30, end) infinite, blink 0.7s infinite;
         }
-        @keyframes loading {
+        @keyframes typing {
             0% { width: 0; }
             50% { width: 100%; }
-            100% { width: 0; }
+            100% { width: 100%; }
+        }
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+        .gear-container {
+            position: absolute;
+            bottom: 30px;
+            display: flex;
+            gap: 15px;
+        }
+        .gear {
+            width: 40px;
+            height: 40px;
+            background: url('gear.svg') no-repeat center;
+            background-size: contain;
+            animation: spin 2s linear infinite;
+        }
+        .gear:nth-child(2) {
+            animation-duration: 3s;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -66,11 +83,14 @@
     <div class="container" id="content">
         <img src="logo2x1.svg" alt="Logo" class="logo">
         <h1>Estamos Construindo Algo Incrível!</h1>
-        <p>Nosso site está sendo desenvolvido para trazer a melhor experiência para você. Aguarde novidades em breve!</p>
+        <p>Nosso site está sendo desenvolvido para trazer a melhor experiência para você.</p>
+        <p class="loading-text">Carregando novidades...</p>
     </div>
     
-    <div class="loading-bar-container">
-        <div class="loading-bar"></div>
+    <div class="gear-container">
+        <div class="gear"></div>
+        <div class="gear"></div>
+        <div class="gear"></div>
     </div>
 
     <script>
