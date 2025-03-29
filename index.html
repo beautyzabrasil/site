@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Em Breve - Novo Site</title>
+    <title id="dynamic-title">Em Breve - Novo Site</title>
     <style>
         * {
             margin: 0;
@@ -32,22 +32,18 @@
             max-width: 300px;
             margin-bottom: 20px;
         }
-        h1 {
+        .typing-text {
             font-size: 2.5em;
-        }
-        p {
-            font-size: 1.2em;
-            margin-top: 10px;
-        }
-        .loading-text {
-            font-size: 1.2em;
             font-weight: bold;
-            margin-top: 20px;
             white-space: nowrap;
             overflow: hidden;
             border-right: 3px solid black;
             width: 0;
-            animation: typing 3s steps(30, end) infinite, blink 0.7s infinite;
+            animation: typing 4s steps(30, end) infinite alternate, blink 0.7s infinite;
+        }
+        p {
+            font-size: 1.2em;
+            margin-top: 10px;
         }
         @keyframes typing {
             0% { width: 0; }
@@ -82,9 +78,8 @@
 <body>
     <div class="container" id="content">
         <img src="logo2x1.svg" alt="Logo" class="logo">
-        <h1>Estamos Construindo Algo Incrível!</h1>
+        <h1 class="typing-text" id="dynamic-text"></h1>
         <p>Nosso site está sendo desenvolvido para trazer a melhor experiência para você.</p>
-        <p class="loading-text">Carregando novidades...</p>
     </div>
     
     <div class="gear-container">
@@ -99,6 +94,20 @@
             content.style.opacity = "1";
             content.style.transform = "translateY(0)";
         }, 100);
+        
+        const texts = ["Estamos Construindo Algo Incrível", "Aguardem Novidades", "Nosso Novo Site Está Chegando!"];
+        let index = 0;
+        const titleElement = document.getElementById("dynamic-title");
+        const textElement = document.getElementById("dynamic-text");
+        
+        function updateText() {
+            textElement.textContent = texts[index];
+            titleElement.textContent = texts[index] + "...";
+            index = (index + 1) % texts.length;
+        }
+        
+        setInterval(updateText, 4000);
+        updateText();
     </script>
 </body>
 </html>
