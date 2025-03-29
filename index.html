@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="dynamic-title">Em Breve - Novo Site</title>
+    <title id="dynamic-title"></title>
     <style>
         * {
             margin: 0;
@@ -32,26 +32,37 @@
             max-width: 300px;
             margin-bottom: 20px;
         }
-        .typing-text {
+        .typing-text, .sub-text {
             font-size: 2.5em;
             font-weight: bold;
             white-space: nowrap;
             overflow: hidden;
             border-right: 3px solid black;
             width: 0;
-            animation: typing 4s steps(30, end) infinite alternate, blink 0.7s infinite;
         }
         p {
             font-size: 1.2em;
             margin-top: 10px;
+            opacity: 0;
+            transition: opacity 1s ease-in;
         }
-        @keyframes typing {
-            0% { width: 0; }
-            50% { width: 100%; }
-            100% { width: 100%; }
+        .dots {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 20px;
         }
         @keyframes blink {
             50% { border-color: transparent; }
+        }
+        @keyframes dotsAnimation {
+            0% { content: "."; }
+            33% { content: ".."; }
+            66% { content: "..."; }
+            100% { content: ""; }
+        }
+        .dots::after {
+            content: "";
+            animation: dotsAnimation 1.5s infinite;
         }
         .gear-container {
             position: absolute;
@@ -79,7 +90,8 @@
     <div class="container" id="content">
         <img src="logo2x1.svg" alt="Logo" class="logo">
         <h1 class="typing-text" id="dynamic-text"></h1>
-        <p>Nosso site está sendo desenvolvido para trazer a melhor experiência para você.</p>
+        <p id="sub-text" class="sub-text"></p>
+        <p class="dots"></p>
     </div>
     
     <div class="gear-container">
@@ -95,19 +107,46 @@
             content.style.transform = "translateY(0)";
         }, 100);
         
-        const texts = ["Estamos Construindo Algo Incrível", "Aguardem Novidades", "Nosso Novo Site Está Chegando!"];
-        let index = 0;
         const titleElement = document.getElementById("dynamic-title");
         const textElement = document.getElementById("dynamic-text");
+        const subTextElement = document.getElementById("sub-text");
+        const texts = ["Estamos Construindo Algo Incrível", "Aguardem Novidades", "Nosso Novo Site Está Chegando!"];
+        let index = 0;
         
-        function updateText() {
-            textElement.textContent = texts[index];
+        function typeEffect(element, text, callback) {
+            let i = 0;
+            element.style.width = "auto";
+            function typing() {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typing, 100);
+                } else {
+                    element.style.borderRight = "none";
+                    if (callback) setTimeout(callback, 1000);
+                }
+            }
+            typing();
+        }
+        
+        function startTyping() {
+            textElement.textContent = "";
+            subTextElement.textContent = "";
+            textElement.style.borderRight = "3px solid black";
+            subTextElement.style.borderRight = "3px solid black";
+            
+            typeEffect(textElement, texts[index], () => {
+                subTextElement.style.opacity = "1";
+                typeEffect(subTextElement, "Nosso site está sendo desenvolvido para trazer a melhor experiência para você.", () => {
+                    subTextElement.style.borderRight = "none";
+                });
+            });
             titleElement.textContent = texts[index] + "...";
             index = (index + 1) % texts.length;
         }
         
-        setInterval(updateText, 4000);
-        updateText();
+        startTyping();
+        setInterval(startTyping, 6000);
     </script>
 </body>
 </html>
