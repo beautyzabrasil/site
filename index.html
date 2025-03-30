@@ -27,24 +27,36 @@
             position: relative;
             width: 80%;
             max-width: 1000px;
+            padding: 20px;
         }
 
         .logo-wrapper {
-            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.4));
-            animation: float 6s ease-in-out infinite;
+            filter: drop-shadow(0 0 25px rgba(92, 52, 102, 0.3));
+            animation: logo-float 4s ease-in-out infinite;
         }
 
         svg {
             width: 100%;
             height: auto;
+            transform-origin: center;
         }
 
-         .message {
+        #BEAUTYZA {
+            fill: #4a2a54;
+            animation: text-glitch 8s infinite;
+        }
+
+        #deusa {
+            fill: #7a5a83;
+            animation: path-morph 12s infinite;
+        }
+
+        .message {
             color: #5d5d81;
             text-align: center;
             margin-top: 2rem;
             font-family: 'Arial', sans-serif;
-            animation: pulse 2s ease-in-out infinite;
+            animation: pulse 1.5s ease-in-out infinite;
             font-size: 2.5em;
             text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
         }
@@ -62,27 +74,52 @@
             100% { background-position: 0% 50%; }
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+        /* Animação da logo mais dinâmica */
+        @keyframes logo-float {
+            0%, 100% { 
+                transform: translateY(0) scale(1);
+                filter: drop-shadow(0 0 25px rgba(92, 52, 102, 0.3));
+            }
+            25% { 
+                transform: translateY(-30px) scale(1.03);
+                filter: drop-shadow(0 0 35px rgba(92, 52, 102, 0.5));
+            }
+            75% { 
+                transform: translateY(15px) scale(0.98);
+                filter: drop-shadow(0 0 15px rgba(92, 52, 102, 0.2));
+            }
+        }
+
+        /* Novas animações específicas */
+        @keyframes text-glitch {
+            0%, 100% { transform: translateX(0); }
+            95% { transform: translateX(0); }
+            96% { transform: translateX(2px); }
+            97% { transform: translateX(-3px); }
+            98% { transform: translateX(1px); }
+        }
+
+        @keyframes path-morph {
+            0%, 100% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+            50% { clip-path: polygon(2% 1%, 98% 3%, 99% 98%, 1% 97%); }
         }
 
         @keyframes pulse {
             0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.05); }
+            50% { opacity: 0.9; transform: scale(1.05); }
         }
 
-        /* Efeito de partículas brilhantes */
         .star {
             position: absolute;
-            background: white;
+            background: #ffffff;
             border-radius: 50%;
             animation: twinkle var(--duration) ease-in-out infinite;
+            box-shadow: 0 0 15px rgba(255, 182, 193, 0.3);
         }
 
         @keyframes twinkle {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 1; }
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.3); }
         }
     </style>
 </head>
@@ -90,7 +127,7 @@
     <div class="container">
         <div class="stars" id="stars"></div>
         <div class="logo-wrapper">
-           <svg xmlns="http://www.w3.org/2000/svg" width="2000" height="1000" viewBox="0 0 5000 2500">
+          <svg xmlns="http://www.w3.org/2000/svg" width="2000" height="1000" viewBox="0 0 5000 2500">
   <defs>
     <style>
       .cls-1, .cls-2 {
@@ -107,25 +144,34 @@
 </svg>
 
         </div>
-        <h1 class="message">Algo incrível está chegando!</h1>
+        <h1 class="message">Uma nova beleza está surgindo...</h1>
     </div>
 
     <script>
-        // Cria partículas brilhantes
         function createStars() {
             const starsContainer = document.getElementById('stars');
-            for(let i = 0; i < 100; i++) {
+            for(let i = 0; i < 120; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
                 star.style.left = Math.random() * 100 + '%';
                 star.style.top = Math.random() * 100 + '%';
-                star.style.width = star.style.height = Math.random() * 3 + 'px';
-                star.style.setProperty('--duration', Math.random() * 3 + 2 + 's');
+                star.style.width = star.style.height = Math.random() * 5 + 'px';
+                star.style.setProperty('--duration', Math.random() * 3 + 1 + 's');
                 starsContainer.appendChild(star);
             }
         }
 
         createStars();
+
+        // Efeito de parallax dinâmico
+        document.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth - e.pageX * 1.5) / 50;
+            const y = (window.innerHeight - e.pageY * 1.5) / 50;
+            document.querySelector('.logo-wrapper').style.transform = 
+                `translate(${x}px, ${y}px) 
+                 scale(${1 + (Math.abs(x)+Math.abs(y))/300}) 
+                 rotate(${(x+y)/15}deg)`;
+        });
     </script>
 </body>
 </html>
