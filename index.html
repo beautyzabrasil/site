@@ -12,7 +12,7 @@
         }
 
         body {
-            background: linear-gradient(-45deg, #2a0845, #4b0d4b, #7a2043);
+            background: linear-gradient(-45deg, #f5e6eb, #e1d6dc, #d3c8d0);
             background-size: 400% 400%;
             height: 100vh;
             display: flex;
@@ -27,10 +27,11 @@
             position: relative;
             width: 80%;
             max-width: 1000px;
+            padding: 20px;
         }
 
         .logo-wrapper {
-            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.4));
+            filter: drop-shadow(0 0 15px rgba(92, 52, 102, 0.2));
             animation: float 6s ease-in-out infinite;
         }
 
@@ -39,12 +40,22 @@
             height: auto;
         }
 
+        #BEAUTYZA {
+            fill: #4a2a54;
+        }
+
+        #deusa {
+            fill: #7a5a83;
+        }
+
         .message {
-            color: white;
+            color: #5d5d81;
             text-align: center;
             margin-top: 2rem;
             font-family: 'Arial', sans-serif;
             animation: pulse 2s ease-in-out infinite;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
         }
 
         .stars {
@@ -61,26 +72,26 @@
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+            0%, 100% { transform: translateY(0) rotate(-1deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
         }
 
         @keyframes pulse {
             0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.05); }
+            50% { opacity: 0.8; transform: scale(1.02); }
         }
 
-        /* Efeito de partículas brilhantes */
         .star {
             position: absolute;
-            background: white;
+            background: #ffffff;
             border-radius: 50%;
             animation: twinkle var(--duration) ease-in-out infinite;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
         @keyframes twinkle {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 1; }
+            0%, 100% { opacity: 0.3; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1); }
         }
     </style>
 </head>
@@ -88,7 +99,7 @@
     <div class="container">
         <div class="stars" id="stars"></div>
         <div class="logo-wrapper">
-          <svg xmlns="http://www.w3.org/2000/svg" width="2000" height="1000" viewBox="0 0 5000 2500">
+            <svg xmlns="http://www.w3.org/2000/svg" width="2000" height="1000" viewBox="0 0 5000 2500">
   <defs>
     <style>
       .cls-1, .cls-2 {
@@ -105,25 +116,32 @@
 </svg>
 
         </div>
-        <h1 class="message">Algo incrível está chegando!</h1>
+        <h1 class="message">Uma nova beleza está surgindo...</h1>
     </div>
 
     <script>
-        // Cria partículas brilhantes
         function createStars() {
             const starsContainer = document.getElementById('stars');
-            for(let i = 0; i < 100; i++) {
+            for(let i = 0; i < 80; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
                 star.style.left = Math.random() * 100 + '%';
                 star.style.top = Math.random() * 100 + '%';
-                star.style.width = star.style.height = Math.random() * 3 + 'px';
-                star.style.setProperty('--duration', Math.random() * 3 + 2 + 's');
+                star.style.width = star.style.height = Math.random() * 4 + 'px';
+                star.style.setProperty('--duration', Math.random() * 4 + 2 + 's');
                 starsContainer.appendChild(star);
             }
         }
 
         createStars();
+
+        // Efeito de parallax suave
+        document.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth - e.pageX * 2) / 90;
+            const y = (window.innerHeight - e.pageY * 2) / 90;
+            document.querySelector('.logo-wrapper').style.transform = 
+                `translate(${x}px, ${y}px)`;
+        });
     </script>
 </body>
 </html>
